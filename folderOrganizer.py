@@ -23,21 +23,39 @@ def organizeByOneType(p: Path):
 
     tempPath = p
 
+    fileType = "." + fileType
+
     newPath = tempPath.joinpath(fileType)
 
     ''' CHANGE LATER TO MAKE A NEW FILE WITH INDEX '''
     newPath.mkdir(exist_ok = True)
-    
-    fileType = "." + fileType
     
     for file in p.iterdir():
         if file.suffix == fileType:
             file.rename(newPath.joinpath(file.name))
 
     print("ORGANIZATION DONE")
+
+# Organizes all file types within a directory
+def organizeByAllTypes(p: Path):
+    '''Organizes all files within directory by file type'''
+
+    print("ORGANIZING...")
+
+    tempPath = p
+    
+    for file in p.iterdir():
+        newPath = tempPath.joinpath(file.suffix)
+        ''' CHANGE LATER TO MAKE A NEW FILE WITH INDEX '''
+        newPath.mkdir(exist_ok = True)
+        file.rename(newPath.joinpath(file.name))
+
+    print("ORGANIZATION DONE")
     
 if __name__ == '__main__':
     path = findDirectory()
+
+    ''' ADD RECURSIVE OPTION TO GO THROUGH ALL DIRECTIORIES WITHIN A DIRECTORY '''
     
     print("CHOOSE ORGANIZATION TYPE")
     print("(1) Organize one file type")
@@ -48,7 +66,7 @@ if __name__ == '__main__':
 
     if conventionChoice == "1":
         organizeByOneType(path)
-    '''elif conventionChoice == "2":
+    elif conventionChoice == "2":
         organizeByAllTypes(path)
-    elif conventionChoice == "3":
+    '''elif conventionChoice == "3":
         organizeByName(path)'''
