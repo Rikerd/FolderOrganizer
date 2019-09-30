@@ -29,7 +29,7 @@ def organizeByOneType(p: Path):
     newPath.mkdir(exist_ok = True)
     
     for file in p.iterdir():
-        if file.suffix == fileType:
+        if file.suffix.lower() == fileType:
             file.rename(newPath.joinpath(file.name))
 
     print("ORGANIZATION DONE")
@@ -40,7 +40,7 @@ def organizeByAllTypes(p: Path):
     print("ORGANIZING...")
     
     for file in p.iterdir():
-        newPath = p.joinpath(file.suffix)
+        newPath = p.joinpath(file.suffix.lower())
         ''' CHANGE LATER TO MAKE A NEW FILE WITH INDEX '''
         newPath.mkdir(exist_ok = True)
         file.rename(newPath.joinpath(file.name))
@@ -64,6 +64,54 @@ def organizeByName(p: Path):
             file.rename(newPath.joinpath(file.name))
 
     print("ORGANIZATION DONE")
+
+# Organizes all image files into a folder
+def organizeImages(p: Path):
+    imageFileTypes = [".png", ".jpg", ".jpeg", ".gif", ".bmp", ".svg"]
+    
+    print("ORGANIZING...")
+
+    newPath = p.joinpath("Pictures")
+    ''' CHANGE LATER TO MAKE A NEW FILE WITH INDEX '''
+    newPath.mkdir(exist_ok = True)
+    
+    for file in p.iterdir():
+        if (file.suffix.lower() in imageFileTypes):
+            file.rename(newPath.joinpath(file.name))
+
+    print("ORGANIZATION DONE")
+
+# Organizes all video files into a folder
+def organizeVideos(p: Path):
+    videoFileTypes = [".mkv", ".flv", ".ogg", ".avi", ".mov", ".wmv", ".mp4", ".mpg", ".m4v", ".svi", ".mkv"]
+    
+    print("ORGANIZING...")
+
+    newPath = p.joinpath("Videos")
+    ''' CHANGE LATER TO MAKE A NEW FILE WITH INDEX '''
+    newPath.mkdir(exist_ok = True)
+    
+    for file in p.iterdir():
+        if (file.suffix.lower() in videoFileTypes):
+            file.rename(newPath.joinpath(file.name))
+
+    print("ORGANIZATION DONE")
+
+# Organizes all music files into a folder
+def organizeVideos(p: Path):
+    msuicFileTypes = [".aa", ".aac", ".aax", ".flac", ".m4a", ".m4b", ".m4p", ".mp3", ".msv", ".voc", ".vox", ".wav", ".wma", ".wv"]
+    
+    print("ORGANIZING...")
+
+    newPath = p.joinpath("Music")
+    ''' CHANGE LATER TO MAKE A NEW FILE WITH INDEX '''
+    newPath.mkdir(exist_ok = True)
+    
+    for file in p.iterdir():
+        if (file.suffix.lower() in videoFileTypes):
+            file.rename(newPath.joinpath(file.name))
+
+    print("ORGANIZATION DONE")
     
 if __name__ == '__main__':
     path = findDirectory()
@@ -74,7 +122,10 @@ if __name__ == '__main__':
     print("(1) Organize one file type")
     print("(2) Organize all file types")
     print("(3) Organize by specified name")
-
+    print("(4) Organize all images")
+    print("(5) Organize all videos")
+    print("(6) Organize all musics")
+    
     conventionChoice = input("\nEnter organization type: ")
 
     if conventionChoice == "1":
@@ -83,3 +134,9 @@ if __name__ == '__main__':
         organizeByAllTypes(path)
     elif conventionChoice == "3":
         organizeByName(path)
+    elif conventionChoice == "4":
+        organizeImages(path)
+    elif conventionChoice == "5":
+        organizeVideos(path)
+    elif conventionChoice == "6":
+        organizeMusic(path)
