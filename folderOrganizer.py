@@ -9,8 +9,8 @@ def findDirectory()->Path:
     if path.exists() == False or not path.is_dir():
         print("Directory not found!")
         findDirectory()
-        
-    print("Directory Found!\n")
+    else:
+        print("Directory Found!\n")
     
     return path
 
@@ -21,11 +21,9 @@ def organizeByOneType(p: Path):
 
     print("ORGANIZING...")
 
-    tempPath = p
-
     fileType = "." + fileType
 
-    newPath = tempPath.joinpath(fileType)
+    newPath = p.joinpath(fileType)
 
     ''' CHANGE LATER TO MAKE A NEW FILE WITH INDEX '''
     newPath.mkdir(exist_ok = True)
@@ -39,16 +37,31 @@ def organizeByOneType(p: Path):
 # Organizes all file types within a directory
 def organizeByAllTypes(p: Path):
     '''Organizes all files within directory by file type'''
-
     print("ORGANIZING...")
-
-    tempPath = p
     
     for file in p.iterdir():
-        newPath = tempPath.joinpath(file.suffix)
+        newPath = p.joinpath(file.suffix)
         ''' CHANGE LATER TO MAKE A NEW FILE WITH INDEX '''
         newPath.mkdir(exist_ok = True)
         file.rename(newPath.joinpath(file.name))
+
+    print("ORGANIZATION DONE")
+
+# Organizes all files with specified name
+def organizeByName(p: Path):
+    '''Organizes files within directory by specified name'''
+    fileName = input("\nEnter file name to organize by: ")
+    
+    print("ORGANIZING...")
+
+    newPath = p.joinpath(fileName)
+    
+    ''' CHANGE LATER TO MAKE A NEW FILE WITH INDEX '''
+    newPath.mkdir(exist_ok = True)
+    
+    for file in p.iterdir():
+        if fileName in file.name and Path(file) != newPath:
+            file.rename(newPath.joinpath(file.name))
 
     print("ORGANIZATION DONE")
     
@@ -60,7 +73,7 @@ if __name__ == '__main__':
     print("CHOOSE ORGANIZATION TYPE")
     print("(1) Organize one file type")
     print("(2) Organize all file types")
-    print("(3) Organize by name")
+    print("(3) Organize by specified name")
 
     conventionChoice = input("\nEnter organization type: ")
 
@@ -68,5 +81,5 @@ if __name__ == '__main__':
         organizeByOneType(path)
     elif conventionChoice == "2":
         organizeByAllTypes(path)
-    '''elif conventionChoice == "3":
-        organizeByName(path)'''
+    elif conventionChoice == "3":
+        organizeByName(path)
