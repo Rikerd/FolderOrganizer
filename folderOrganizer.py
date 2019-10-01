@@ -8,7 +8,7 @@ def findDirectory()->Path:
 
     if path.exists() == False or not path.is_dir():
         print("Directory not found!")
-        findDirectory()
+        return findDirectory()
     else:
         print("Directory Found!\n")
     
@@ -67,6 +67,7 @@ def organizeByName(p: Path):
 
 # Organizes all image files into a folder
 def organizeImages(p: Path):
+    '''Organizes files within directory by image file types'''
     imageFileTypes = [".png", ".jpg", ".jpeg", ".gif", ".bmp", ".svg"]
     
     print("ORGANIZING...")
@@ -83,6 +84,7 @@ def organizeImages(p: Path):
 
 # Organizes all video files into a folder
 def organizeVideos(p: Path):
+    '''Organizes files within directory by video file types'''
     videoFileTypes = [".mkv", ".flv", ".ogg", ".avi", ".mov", ".wmv", ".mp4", ".mpg", ".m4v", ".svi", ".mkv"]
     
     print("ORGANIZING...")
@@ -98,8 +100,9 @@ def organizeVideos(p: Path):
     print("ORGANIZATION DONE")
 
 # Organizes all music files into a folder
-def organizeVideos(p: Path):
-    msuicFileTypes = [".aa", ".aac", ".aax", ".flac", ".m4a", ".m4b", ".m4p", ".mp3", ".msv", ".voc", ".vox", ".wav", ".wma", ".wv"]
+def organizeMusic(p: Path):
+    '''Organizes files within directory by music file types'''
+    musicFileTypes = [".aa", ".aac", ".aax", ".flac", ".m4a", ".m4b", ".m4p", ".mp3", ".msv", ".voc", ".vox", ".wav", ".wma", ".wv"]
     
     print("ORGANIZING...")
 
@@ -108,15 +111,14 @@ def organizeVideos(p: Path):
     newPath.mkdir(exist_ok = True)
     
     for file in p.iterdir():
-        if (file.suffix.lower() in videoFileTypes):
+        if (file.suffix.lower() in musicFileTypes):
             file.rename(newPath.joinpath(file.name))
 
     print("ORGANIZATION DONE")
-    
-if __name__ == '__main__':
-    path = findDirectory()
 
-    ''' ADD RECURSIVE OPTION TO GO THROUGH ALL DIRECTIORIES WITHIN A DIRECTORY '''
+# Select desired organization type
+def selectOrganizationType(p: Path):
+    '''ADD RECURSION'''
     
     print("CHOOSE ORGANIZATION TYPE")
     print("(1) Organize one file type")
@@ -129,14 +131,24 @@ if __name__ == '__main__':
     conventionChoice = input("\nEnter organization type: ")
 
     if conventionChoice == "1":
-        organizeByOneType(path)
+        organizeByOneType(p)
     elif conventionChoice == "2":
-        organizeByAllTypes(path)
+        organizeByAllTypes(p)
     elif conventionChoice == "3":
-        organizeByName(path)
+        organizeByName(p)
     elif conventionChoice == "4":
-        organizeImages(path)
+        organizeImages(p)
     elif conventionChoice == "5":
-        organizeVideos(path)
+        organizeVideos(p)
     elif conventionChoice == "6":
-        organizeMusic(path)
+        organizeMusic(p)
+    else:
+        print("INVALID INPUT\n")
+        selectOrganizationType(p)
+    
+if __name__ == '__main__':
+    path = findDirectory()
+
+    selectOrganizationType(path)
+    
+    
